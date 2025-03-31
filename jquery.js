@@ -1,41 +1,50 @@
 $(document).ready(function(){
 let date = new Date()
-    let time = date.getSeconds() + date.getMilliseconds()
-    let time1 = 0
+    let time1;
+    let time2;
     let totalTime;
+    const time = 3;
     let result;
 
-$("#start").click(function(){
-console.log(event);
-if (time1 === 0){
-let time1 = time
-$(this).text("Start")
+$("#start").on("click", function(){
+console.log("Click1");
+
+
+if($("#start").val() == "Start"){
+let time1 = date.getSeconds() + date.getMilliseconds()
+$("#start").val("Stop");
 }
-else{
-let time2 = date.getTime()
-    $(this).text("Start")
-        if ($("#totalTime").val()=== 3.0){
+
+
+else if($("#start").val() == "Stop"){
+$("#start").val("Start");
+let time2 = date.getSeconds() + date.getMilliseconds()
+let totalTime = Math.abs(time2 - time1)
+console.log("Click2");
+
+
+        if ($("#totalTime").val() === time){
         $('body').css("background", "green");
-        let totalTime = Math.abs(time2 - time1)
             result = totalTime
-        }
+            $("#result").append("<p>" + result + "</p>");
+       }
         else if ($("#totalTime").val()<= 0.2){
         $('body').css("background", "blue");
-        let totalTime = Math.abs(time2 - time1)
                result = totalTime
+               $("#result").append("<p>" + result + "</p>");
             }
           else if ($("#totalTime").val()<= 0.5){
           $('body').css("background", "yellow");
-          let totalTime = Math.abs(time2 - time1)
                         result = totalTime
+                        $("#result").append("<p>" + result + "</p>");
                     }
         else{
         result = totalTime
          $('body').css("background", "red");
-         }
          $("#result").append("<p>" + result + "</p>");
-}
-    });
+         }
+         }
+});
 
 
 });
