@@ -9,6 +9,7 @@ const time = 3.00;
 let result;
 let resultDisplay;
 let clickCounter = 0;
+$("#result").hide();
 
 $("#start").on("click", function(){
 
@@ -32,7 +33,6 @@ let time2 = seconds + (milliseconds/1000)
 let totalTime = Math.abs(time2 - time1).toFixed(2)
 clickCounter += 1;
 $("#start").val("Start");
-console.log(clickCounter);
         if (totalTime === time){
         $('body').css("background", "green");
             result = totalTime
@@ -64,7 +64,20 @@ console.log(clickCounter);
          $("#resultDisplay").show();
          }
 });
+$("#times").on("click", function(){
 
+if($("#times").val() == "Show"){
+
+$("#result").show();
+$("#times").val("Hide");
+}
+else if($("#times").val() == "Hide"){
+
+$("#result").hide();
+$("#times").val("Show");
+
+}
+});
 
 });
 
