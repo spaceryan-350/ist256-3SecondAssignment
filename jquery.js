@@ -8,6 +8,7 @@ let milliseconds;
 const time = 3.00;
 let result;
 let resultDisplay;
+let clickCounter = 0;
 
 $("#start").on("click", function(){
 
@@ -29,8 +30,9 @@ let seconds = date.getSeconds()
 let milliseconds = date.getMilliseconds()
 let time2 = seconds + (milliseconds/1000)
 let totalTime = Math.abs(time2 - time1).toFixed(2)
+clickCounter += 1;
 $("#start").val("Start");
-
+console.log(clickCounter);
         if (totalTime === time){
         $('body').css("background", "green");
             result = totalTime
