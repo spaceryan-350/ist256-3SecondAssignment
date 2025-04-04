@@ -1,4 +1,4 @@
-# ist256-3SecondAssignment
+# IST256-3SecondAssignment
 
 Ryan Patterson
 
