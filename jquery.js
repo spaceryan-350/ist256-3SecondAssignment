@@ -9,7 +9,18 @@ const time = 3.00;
 let result;
 let resultDisplay;
 let clickCounter = 0;
+let totalAvg;
+let totalAttempts;
+let min;
+let max;
+let sum = 0;
+var attempts = [];
+var labels = [];
 $("#result").hide();
+$("#totalAttempts").hide();
+$("#totalAvg").hide();
+$("#min").hide();
+$("#max").hide();
 
 $("#start").on("click", function(){
 
@@ -38,32 +49,42 @@ $("#start").val("Start");
             result = totalTime
             resultDisplay = totalTime
             $("#resultDisplay").text("Time: " + result);
-            $("#result").append("<p>" + result + "</p>");
+            $("#result").append("<p>Attempt " + clickCounter + ": " + result + " | Start Time: " + time1.toFixed(2) + " | End Time: " + time2.toFixed(2) + "</p>");
+            attempts.push(totalTime);
        }
         else if (Math.abs(totalTime - time).toFixed(2) <= 0.20){
         $('body').css("background", "blue");
                result = totalTime
                resultDisplay = totalTime
                   $("#resultDisplay").text("Time: " + result);
-               $("#result").append("<p>" + result + "</p>");
+               $("#result").append("<p>Attempt " + clickCounter + ": " + result + " | Start Time: " + time1.toFixed(2) + " | End Time: " + time2.toFixed(2) + "</p>");
+               attempts.push(totalTime);
             }
           else if (Math.abs(totalTime - time).toFixed(2) <= 0.50){
           $('body').css("background", "yellow");
                         result = totalTime
                         resultDisplay = totalTime
                         $("#resultDisplay").text("Time: " + result);
-                        $("#result").append("<p>" + result + "</p>");
+                       $("#result").append("<p>Attempt " + clickCounter + ": " + result + " | Start Time: " + time1.toFixed(2) + " | End Time: " + time2.toFixed(2) + "</p>");
+                       attempts.push(totalTime);
                     }
         else{
         result = totalTime
         resultDisplay = totalTime
          $('body').css("background", "red");
          $("#resultDisplay").text("Time: " + result);
-         $("#result").append("<p>" + result + "</p>");
+         $("#result").append("<p>Attempt " + clickCounter + ": " + result + " | Start Time: " + time1.toFixed(2) + " | End Time: " + time2.toFixed(2) + "</p>");
+         attempts.push(totalTime);
          }
+         var newLabel = 'Attempt ' + clickCounter;
+         labels.push(newLabel);
          $("#resultDisplay").show();
+         myChart.update();
          }
+
 });
+
+
 $("#times").on("click", function(){
 
 if($("#times").val() == "Show"){
@@ -79,5 +100,56 @@ $("#times").val("Show");
 }
 });
 
+
+$("#avg").on("click", function(){
+let min = Math.min(...attempts);
+let max = Math.max(...attempts);
+if($("#avg").val() == "Show"){
+for (let i = 0; i < attempts.length; i++) {
+      sum += parseInt(attempts[i]);
+    }
+let totalAvg = sum / attempts.length;
+$("#totalAttempts").text("Total Attempts: " + clickCounter);
+$("#totalAvg").text("Average: " + totalAvg.toFixed(2));
+$("#min").text("Min: " + min);
+$("#max").text("Max: " + max);
+$("#totalAttempts").show();
+$("#totalAvg").show();
+$("#min").show();
+$("#max").show();
+$("#avg").val("Hide");
+}
+else if($("#avg").val() == "Hide"){
+$("#totalAttempts").hide();
+$("#totalAvg").hide();
+$("#min").hide();
+$("#max").hide();
+$("#avg").val("Show");
+
+}
+});
+var ctx = $("#myChart");
+ var data = {
+ labels: labels,
+ datasets: [{
+label: "Time",
+data: attempts,
+fill: true,
+tension: 0.1
+ }]
+ };
+var options = {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        };
+ var myChart = new Chart(ctx, {
+             type: "line",
+             data: data,
+             options: options
+         });
 });
 
